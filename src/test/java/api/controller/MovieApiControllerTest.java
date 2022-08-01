@@ -15,8 +15,8 @@ public class MovieApiControllerTest {
     @Test
     public void movieList() throws IOException {
         //given
-        String cilentId = "n1NSzTDIYljgEbxM1gSm";
-        String secretKey = "pVjPoekqUN";
+        String cilentId = "no";
+        String secretKey = "no";
         String apiUrl = "https://openapi.naver.com/v1/search/movie.json";
 
         String getParam = "?query=dumpling";
@@ -49,8 +49,8 @@ public class MovieApiControllerTest {
 
     public static void main(String[] args) throws IOException {
         //given
-        String cilentId = "n1NSzTDIYljgEbxM1gSm";
-        String secretKey = "pVjPoekqUN";
+        String cilentId = "no";
+        String secretKey = "no";
         String apiUrl = "https://openapi.naver.com/v1/search/movie.json";
 
         String getParam = "?query=만두";
