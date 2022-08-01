@@ -29,3 +29,5 @@ test/
 .idea/
 target/
 out/
+
+config.properties
