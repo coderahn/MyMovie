@@ -40,14 +40,14 @@ public class MovieApiController {
      * @param title
      * @return
      */
-    @RequestMapping(value = "/movie-list/{title}", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "/movie-list", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
     @ResponseBody
-    public String movieList(@PathVariable("title") String title) {
+    public String movieList(String title, String genre, String country) {
         log.debug("get Movie Lists");
         String result = "";
 
         try {
-            String queryParameter = "?query=" + URLEncoder.encode(title, "UTF-8");
+            String queryParameter = "?query=" + URLEncoder.encode(title, "UTF-8") + "&genre=" + genre + "&country=" + country;
 
             HttpURLConnection huc = this.apiCall(queryParameter);
 

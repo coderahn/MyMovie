@@ -7,11 +7,19 @@
     <script src="/resources/js/vue.js"></script>
     <title>Title</title>
     <meta charset="UTF-8">
+    <style>
+        .box_1 {
+            float: left; width:100%;;
+        }
+        .box_2 {
+            display:inline-block;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
         <div>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">영화 애플리케이션</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,26 +34,61 @@
                                 <a class="nav-link" href="#">Link</a>
                             </li>
                         </ul>
-                        <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" v-model="title">
-                            <button class="btn btn-success" type="button" @click="search">검색</button>
-                        </form>
                     </div>
                 </div>
             </nav>
         </div>
-
-        <div class="card-group">
-            <div class="card" v-for="item in movieList">
-                <img :src="item.image" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title" v-html="item.title">({{item.pubDate}})</h5>
-                    <h5 class="card-title">{{item.director}}</h5>
+        <div class="box_1">
+            <form class="row g-3">
+                <div class="col-md-6">
+                    <label for="movieTitle" class="form-label">영화제목</label>
+                    <input class="form-control me-2" id="movieTitle" type="search" placeholder="영화 제목을 입력해 주세요." aria-label="Search" v-model="reqData.title">
                 </div>
-                <div class="card-footer">
-                    <small class="text-muted">평점 : {{item.userRating}}</small>
+                <div class="col-md-4">
+                    <label for="country" class="form-label">국가</label>
+                    <select id="country" class="form-select" v-model="reqData.country">
+                        <option value="">전체</option>
+                        <option v-for="(country, i) in initData.country" :id="'country_' + country.code" :key="i" :selected="i == 0" :value="country.code">
+                            {{country.name}}
+                        </option>
+                    </select>
                 </div>
-            </div>
+                <div class="col-md-2">
+                    <label for="genre" class="form-label">장르</label>
+                    <select id="genre" class="form-select" v-model="reqData.genre">
+                        <%--<option v-for="(genre, i) in initData.country" selected>{{genre.name}}</option>--%>
+                        <option value="">전체</option>
+                        <option v-for="(genre, i) in initData.genre" :id="'genre_' + genre.code" :key="i" :selected="i == 0" :value="genre.code">
+                            {{genre.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-success" type="button" @click="search">영화 검색</button>
+                </div>
+            </form>
+        </div>
+        <div class="box_2">
+            <template v-if="movieList.length">
+                <div class="row">
+                    <div class="col-xs-6 col-md-3" v-for="item in movieList">
+                        <div class="img-thumbnail">
+                            <img :src="item.image" class="" alt="..." v-if="item.image">
+                            <img src="/resources/img/readyImage.png" v-else>
+                            <div class="caption">
+                                <h5 v-html="item.title">({{item.pubDate}})</h5>
+                                <h5>{{item.director}}</h5>
+                                <small class="text-muted">평점 : {{item.userRating}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template v-else>
+                <div class="jumbotron">
+                    <h1>영화를 검색해 주세요!</h1>
+                </div>
+            </template>
         </div>
     </div>
 </body>
@@ -55,25 +98,103 @@
     const app = new Vue({
         el:"#app",
         data: {
+            initData: {
+                country : [
+                    {'name' : '한국', 'code' : 'KR'},
+                    {'name' : '일본', 'code' : 'JP'},
+                    {'name' : '미국', 'code' : 'US'},
+                    {'name' : '홍콩', 'code' : 'HK'},
+                    {'name' : '영국', 'code' : 'GB'},
+                    {'name' : '프랑스', 'code' : 'FR'},
+                    {'name' : '기타', 'code' : 'ETC'},
+                ],
+                genre : [
+                    {'name' : '드라마', code : '1'},
+                    {'name' : '판타지', code : '2'},
+                    {'name' : '서부', code : '3'},
+                    {'name' : '공포', code : '4'},
+                    {'name' : '로맨스', code : '5'},
+                    {'name' : '모험', code : '6'},
+                    {'name' : '스릴러', code : '7'},
+                    {'name' : '느와르', code : '8'},
+                    {'name' : '컬트', code : '9'},
+                    {'name' : '다큐멘터리', code : '10'},
+                    {'name' : '코미디', code : '11'},
+                    {'name' : '가족', code : '12'},
+                    {'name' : '미스터리', code : '13'},
+                    {'name' : '전쟁', code : '14'},
+                    {'name' : '애니메이션', code : '15'},
+                    {'name' : '범죄', code : '16'},
+                    {'name' : '뮤지컬', code : '17'},
+                    {'name' : 'SF', code : '18'},
+                    {'name' : '액션', code : '19'},
+                    {'name' : '무협', code : '20'},
+                    {'name' : '애로', code : '21'},
+                    {'name' : '서스펜스', code : '22'},
+                    {'name' : '서사', code : '23'},
+                    {'name' : '블랙코미디', code : '24'},
+                    {'name' : '실험', code : '25'},
+                    {'name' : '영화카툰', code : '26'},
+                    {'name' : '영화음악', code : '27'},
+                    {'name' : '영화패러디포스터', code : '28'}
+                ]
+            },
+            reqData: {
+              genre: '',
+              title: '',
+              country: '',
+            },
             message : '안녕',
-            title: '',
             movieList: []
         },
         created() {
         },
         methods: {
             search: function() {
-                console.log(this.title);
+                console.log(this.reqData.title);
 
-                fetch('http://localhost:8080/movie-list/' + encodeURIComponent(this.title))
+                //타이틀 등 여러가지를 요청 파라미터 방식으로 넘기기
+                //1)query:검색질의(UTF-8인코딩)
+                //2)display:검색결과출력건수
+                //3)start:검색 시작 위치
+                //4)genre : 검색 장르
+                //5)county : 검색국가
+                //6)yearfrom : 영화최소 제작년도(최소)
+                //7)yearto : 영화의 제작년도(최대)
+                //body에 제이슨 직렬화해서 넘기기
+
+                let query = Object.keys(this.reqData).map(key => (
+                   encodeURIComponent(key) + '=' + encodeURIComponent(this.reqData[key])
+                )).join('&');
+
+                fetch('http://localhost:8080/movie-list?' + query)
                     .then((response) => {
                         return response.json();
                     })
                     .then((json) => {
                         console.log(json);
                         console.log(json.items);
+                        json.items.map((item) => {
+                            let directorArr = item.director.split('|');
+                            item.director = directorArr.join(",").slice(0,-1);
+                        });
                         this.movieList = json.items;
                     })
+            }
+        },
+        watch : {
+            //객체 내부 변경 감지 못함
+            // reqData() {
+            //     console.log('장르변경', this.reqData.genre);
+            // },
+            //객체 내부 변경 감지(deep:true)
+            reqData: {
+                deep: true,
+                handler() {
+                    console.log('reqData 제목 변경:', this.reqData.title);
+                    console.log('reqData 국가 변경:', this.reqData.country);
+                    console.log('reqData 장르 변경:', this.reqData.genre);
+                }
             }
         }
     })
