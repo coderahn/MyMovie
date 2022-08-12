@@ -31,7 +31,7 @@
                                 <a class="nav-link active" aria-current="page" href="#">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
+                                <a class="nav-link" href="#">문의사항</a>
                             </li>
                         </ul>
                     </div>
@@ -183,16 +183,18 @@
             }
         },
         watch : {
-            //객체 내부 변경 감지 못함
-            // reqData() {
-            //     console.log('장르변경', this.reqData.genre);
+            //1)객체 내부 변경 감지 못함
+            // reqData () {
+            //     console.log('장르변경!', this.reqData.genre);
             // },
-            //객체 내부 변경 감지(deep:true)
+            //2)객체 내부 변경 감지 방법1
+            // 'reqData.genre' () {
+            //     console.log('장르변경!', this.reqData.genre);
+            // },
+            //3)객체 내부 변경 감지 방법2
             reqData: {
                 deep: true,
                 handler() {
-                    console.log('reqData 제목 변경:', this.reqData.title);
-                    console.log('reqData 국가 변경:', this.reqData.country);
                     console.log('reqData 장르 변경:', this.reqData.genre);
                 }
             }

@@ -26,13 +26,18 @@ public class MovieApiController {
     @Value("${apiUrl}")
     private String apiUrl;
 
+    @RequestMapping("/")
+    public String init() {
+        //스프링 시큐리티 로그인시 main 리다이렉트 처리
+        return "redirect:/main";
+    }
+
     @RequestMapping("/main")
     public String main() {
         log.debug("main page start");
 
         return "/movie/main";
     }
-
 
     /**
      * 영화API로 리스트 조회
@@ -47,7 +52,7 @@ public class MovieApiController {
         String result = "";
 
         try {
-            String queryParameter = "?query=" + URLEncoder.encode(title, "UTF-8") + "&genre=" + genre + "&country=" + country;
+            String queryParameter = "?query=" + URLEncoder.encode(title, "UTF-8") + "&display=30&genre=" + genre + "&country=" + country;
 
             HttpURLConnection huc = this.apiCall(queryParameter);
 
