@@ -42,7 +42,7 @@ public class MovieApiController {
     /**
      * 영화API로 리스트 조회
      * TODO : 예외처리, 파라미터(검색어 이외) 처리, api 상태코드별 처리, 로직 서비스단 이동
-     * @param title, genre, country
+     * @param title, genre, country, 기타
      * @return
      */
     @RequestMapping(value = "/movie-list", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
