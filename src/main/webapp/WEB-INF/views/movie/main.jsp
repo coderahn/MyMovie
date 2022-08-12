@@ -71,14 +71,20 @@
         <div class="box_2">
             <template v-if="movieList.length">
                 <div class="row">
-                    <div class="col-xs-6 col-md-3" v-for="item in movieList">
-                        <div class="img-thumbnail">
+                    <div class="col-xs-6 col-md-3" v-for="(item, i) in movieList">
+                        <div class="img-thumbnail" :key="'movie_' + i">
+                            <!-- 영화 이미지 -->
                             <img :src="item.image" class="" alt="..." v-if="item.image">
                             <img src="/resources/img/readyImage.png" v-else>
+                            <!-- 영화 정보 -->
                             <div class="caption">
                                 <h5 v-html="item.title">({{item.pubDate}})</h5>
                                 <h5>{{item.director}}</h5>
                                 <small class="text-muted">평점 : {{item.userRating}}</small>
+                            </div>
+                            <!-- 볼 영화 리스트 저장 -->
+                            <div>
+                                <button type="button" class="btn btn-warning" @click="saveWatchList(item.title, item.pubDate)">☆Watch List</button>
                             </div>
                         </div>
                     </div>
@@ -180,6 +186,12 @@
                         });
                         this.movieList = json.items;
                     })
+            },
+            saveWatchList : function (title, pubDate) {
+                //고유 키값이 없어서 title+ '_' + pubDate로 해야할 듯
+                //mySql DB 저장(pk, userId) : 영화와 유저 n대n
+                let moviePk = title + '_' + pubDate;
+                console.log(moviePk);
             }
         },
         watch : {
