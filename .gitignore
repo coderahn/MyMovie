@@ -24,7 +24,7 @@
 hs_err_pid*
 
 # test file
-test/java/api/controller
+MovieApiControllerTest.java
 
 .idea/
 target/
