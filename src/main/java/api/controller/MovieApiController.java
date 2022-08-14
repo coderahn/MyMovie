@@ -39,6 +39,11 @@ public class MovieApiController {
         return "/movie/main";
     }
 
+    @RequestMapping("/admin")
+    public String admin() {
+        return "sample/admin";
+    }
+
     /**
      * 영화API로 리스트 조회
      * TODO : 예외처리, 파라미터(검색어 이외) 처리, api 상태코드별 처리, 로직 서비스단 이동

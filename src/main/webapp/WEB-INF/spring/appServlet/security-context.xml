@@ -9,16 +9,23 @@
 
     <!-- https://to-dy.tistory.com/70 -->
     <!-- https://admm.tistory.com/106 -->
+
+    <beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <!-- 접근 설정 -->
     <http auto-config="true" use-expressions="false">
+        <intercept-url pattern="/admin" access="ROLE_ADMIN"/>
         <intercept-url pattern="/**" access="ROLE_USER"/> <!-- ADMIN 접속시 403 에러 -->
     </http>
 
+    <!-- 인증관련 설정 -->
     <authentication-manager>
         <authentication-provider>
             <user-service>
-                <user name="admin" password="admin" authorities="ADMIN"/>
+                <user name="admin" password="admin" authorities="ROLE_ADMIN"/>
                 <user name="user" password="userPw" authorities="ROLE_USER"/>
             </user-service>
+            <password-encoder ref="bcryptPasswordEncoder"/>
         </authentication-provider>
     </authentication-manager>
 </beans:beans>
