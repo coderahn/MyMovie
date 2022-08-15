@@ -30,10 +30,11 @@ public class RootContextConfigTest {
     private SqlSessionFactory sqlFactory;
 
     @Autowired
-    private ApiDao apiDao;
+    // ApiDao apiDao;
 
     @Test
     public void DataSource_생성여부테스트() {
+        System.out.println("dataSource:" + dataSource);
         Assert.notNull(dataSource);
     }
 
@@ -56,6 +57,6 @@ public class RootContextConfigTest {
 
     @Test
     public void sqlSession_insert_테스트() {
-        apiDao.insertMember("1234");
+        //apiDao.insertMember("1234");
     }
 }

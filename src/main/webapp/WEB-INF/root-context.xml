@@ -8,4 +8,7 @@
     <bean class="config.RootContextConfig"/>
 
     <!--<context:component-scan base-package="api.mapper"/>-->
+
+    <!-- 프로퍼티 경로 설정 -->
+    <context:property-placeholder location="classpath:properties/*.properties"/>
 </beans>

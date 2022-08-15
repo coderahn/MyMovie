@@ -1,6 +1,7 @@
 package config;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
+import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.io.Reader;
+import java.util.Properties;
 
 //Db 접근 관련만 java config로 사용
 @Configuration
@@ -28,12 +31,21 @@ public class RootContextConfig {
 
     @Bean
     public DriverManagerDataSource dataSource() {
-        //임시
+        String resources = "properties/db.properties";
+        Properties properties = new Properties();
+
+        try {
+            Reader reader = Resources.getResourceAsReader(resources);
+            properties.load(reader);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/mymovie?serverTimezone=UTC&useSSL=false");
-        dataSource.setUsername("root");
-        dataSource.setPassword("1234");
+        dataSource.setDriverClassName(properties.getProperty("db.driver"));
+        dataSource.setUrl(properties.getProperty("db.url"));
+        dataSource.setUsername(properties.getProperty("db.username"));
+        dataSource.setPassword(properties.getProperty("db.password"));
 
         return dataSource;
     }
@@ -42,8 +54,8 @@ public class RootContextConfig {
     public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) throws IOException {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
-        factoryBean.setConfigLocation(applicationContext.getResource("classpath:/mybatis-config.xml"));
-        factoryBean.setMapperLocations(applicationContext.getResources("classpath*:**/*.xml"));
+        //factoryBean.setConfigLocation(applicationContext.getResource("classpath:/mybatis-config.xml"));
+        //factoryBean.setMapperLocations(applicationContext.getResources("classpath*:**/*.xml"));
         return factoryBean;
     }
 
