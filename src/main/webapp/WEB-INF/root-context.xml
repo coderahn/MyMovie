@@ -6,4 +6,6 @@
 
     <!-- DataSource Java Config -->
     <bean class="config.RootContextConfig"/>
+
+    <!--<context:component-scan base-package="api.mapper"/>-->
 </beans>
