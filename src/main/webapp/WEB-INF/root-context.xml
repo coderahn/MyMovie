@@ -7,7 +7,8 @@
     <!-- DataSource Java Config -->
     <bean class="config.RootContextConfig"/>
 
-    <!--<context:component-scan base-package="api.mapper"/>-->
+    <context:component-scan base-package="api.*"/>
+    <context:component-scan base-package="config"/>
 
     <!-- 프로퍼티 경로 설정 -->
     <context:property-placeholder location="classpath:properties/*.properties"/>

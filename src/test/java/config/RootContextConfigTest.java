@@ -1,6 +1,6 @@
 package config;
 
-import api.mapper.ApiDao;
+import api.mapper.ApiMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import java.sql.Connection;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 //WEB-INF접근 2가지 방법(file, classpath)
@@ -30,7 +31,7 @@ public class RootContextConfigTest {
     private SqlSessionFactory sqlFactory;
 
     @Autowired
-    // ApiDao apiDao;
+    ApiMapper apiMapper;
 
     @Test
     public void DataSource_생성여부테스트() {
@@ -40,9 +41,8 @@ public class RootContextConfigTest {
 
     @Test
     public void DB_커넥션테스트() {
+        //mysql-connector-java의 버전은 mysql과 맞아야 함 / 안맞을 경우 다음 에러 발생 : Unknown system variable 'query_cache_size'
         try (Connection c = dataSource.getConnection()) {
-            //mysql-connector-java의 버전은 mysql과 맞아야 함 / 안맞을 경우 다음 에러 발생 : Unknown system variable 'query_cache_size'
-
             System.out.println("Connection Object: " + c);
         } catch(Exception e) {
             e.printStackTrace();
@@ -56,7 +56,7 @@ public class RootContextConfigTest {
     }
 
     @Test
-    public void sqlSession_insert_테스트() {
-        //apiDao.insertMember("1234");
+    public void sqlSession_select_테스트() throws Exception{
+       List<String> user =  apiMapper.selectMember();
     }
 }

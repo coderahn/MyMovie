@@ -19,7 +19,8 @@
         <beans:property name="prefix" value="/WEB-INF/views/"/>
         <beans:property name="suffix" value=".jsp"/>
     </beans:bean>
-    
+
+    <!-- 인터셉터 매핑 -->
     <interceptors>
         <interceptor>
             <mapping path="/**"/>
